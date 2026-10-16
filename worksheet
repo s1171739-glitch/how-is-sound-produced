@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Is Sound Produced?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f2f6fb;
+      color: #222;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 15px #bbb;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #174a7c;
+    }
+
+    .student-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #aaa;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .question-box {
+      background: #eef6ff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    th, td {
+      border: 1px solid #777;
+      padding: 10px;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    th {
+      background: #d9eaff;
+    }
+
+    .material {
+      font-weight: bold;
+      font-size: 18px;
+      padding-top: 35px;
+    }
+
+    canvas {
+      width: 100%;
+      max-width: 330px;
+      height: 180px;
+      border: 2px solid #444;
+      background: white;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .clear-button {
+      display: block;
+      margin: 5px auto;
+      padding: 5px 12px;
+      cursor: pointer;
+    }
+
+    .result-option {
+      display: block;
+      margin: 12px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    button {
+      border: none;
+      border-radius: 6px;
+      padding: 12px 22px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #submitButton {
+      display: block;
+      margin: 25px auto 5px;
+      background: #1976d2;
+      color: white;
+    }
+
+    #submitButton:hover {
+      background: #0d47a1;
+    }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      margin: 15px;
+    }
+
+    .teacher-record {
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      background: #fafafa;
+    }
+
+    .teacher-record img {
+      width: 280px;
+      border: 1px solid #555;
+      margin: 5px;
+    }
+
+    .teacher-record h3 {
+      color: #174a7c;
+    }
+
+    @media (max-width: 700px) {
+      .student-info {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 13px;
+      }
+
+      canvas {
+        height: 140px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- 学生页面 -->
+  <section id="studentPage">
+    <h1>How Is Sound Produced?</h1>
+
+    <div class="student-info">
+      <div>
+        <label>班级 Class</label>
+        <input id="className" type="text" placeholder="请输入班级">
+      </div>
+
+      <div>
+        <label>组别 Group</label>
+        <input id="groupName" type="text" placeholder="请输入组别">
+      </div>
+    </div>
+
+    <div class="question-box">
+      <h2>Question</h2>
+      <p>How is sound produced?</p>
+    </div>
+
+    <div class="question-box">
+      <label>Predict: Sound is produced by</label>
+      <input id="prediction" type="text" placeholder="请输入你的预测">
+    </div>
+
+    <h2>Experiment</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Material</th>
+          <th>Method<br>请在中间绘画实验方法</th>
+          <th>Result: Sound produced?<br>请选择 ✓ 或 ✗</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="material">Rubber band</td>
+          <td>
+            <canvas id="canvas-rubber-band" width="330" height="180"></canvas>
+            <button class="clear-button" onclick="clearCanvas('rubber-band')">
+              Clear
+            </button>
+          </td>
+          <td>
+            <label class="result-option">
+              <input type="radio" name="result-rubber-band" value="yes"> ✓
+            </label>
+            <label class="result-option">
+              <input type="radio" name="result-rubber-band" value="no"> ✗
+            </label>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="material">Drum</td>
+          <td>
+            <canvas id="canvas-drum" width="330" height="180"></canvas>
+            <button class="clear-button" onclick="clearCanvas('drum')">
+              Clear
+            </button>
+          </td>
+          <td>
+            <label class="result-option">
+              <input type="radio" name="result-drum" value="yes"> ✓
+            </label>
+            <label class="result-option">
+              <input type="radio" name="result-drum" value="no"> ✗
+            </label>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="material">Ruler</td>
+          <td>
+            <canvas id="canvas-ruler" width="330" height="180"></canvas>
+            <button class="clear-button" onclick="clearCanvas('ruler')">
+              Clear
+            </button>
+          </td>
+          <td>
+            <label class="result-option">
+              <input type="radio" name="result-ruler" value="yes"> ✓
+            </label>
+            <label class="result-option">
+              <input type="radio" name="result-ruler" value="no"> ✗
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="question-box">
+      <label>Conclusion: Sound is produced by</label>
+      <input id="conclusion" type="text" placeholder="请输入你的结论">
+    </div>
+
+    <button id="submitButton">Submit 提交给老师</button>
+    <div id="message"></div>
+  </section>
+
+
+  <!-- 老师页面：网址后加 ?teacher -->
+  <section id="teacherPage" style="display:none;">
+    <h1>Teacher Dashboard</h1>
+    <p>学生提交记录：</p>
+
+    <button onclick="loadSubmissions()">Refresh 刷新</button>
+    <div id="records"></div>
+  </section>
+
+</div>
+
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from
+    "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy,
+    serverTimestamp
+  } from
+    "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+  /*
+    请把以下 Firebase 配置替换成你自己的配置。
+  */
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+
+  // Canvas 绘画功能
+  const canvasNames = ["rubber-band", "drum", "ruler"];
+  const canvasContexts = {};
+
+  canvasNames.forEach(name => {
+    const canvas = document.getElementById("canvas-" + name);
+    const ctx = canvas.getContext("2d");
+
+    ctx.lineWidth = 3;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000000";
+
+    canvasContexts[name] = {
+      canvas: canvas,
+      ctx: ctx,
+      drawing: false
+    };
+
+    function getPosition(event) {
+      const rect = canvas.getBoundingClientRect();
+
+      let clientX;
+      let clientY;
+
+      if (event.touches && event.touches.length > 0) {
+        clientX = event.touches[0].clientX;
+        clientY = event.touches[0].clientY;
+      } else {
+        clientX = event.clientX;
+        clientY = event.clientY;
+      }
+
+      return {
+        x: (clientX - rect.left) * canvas.width / rect.width,
+        y: (clientY - rect.top) * canvas.height / rect.height
+      };
+    }
+
+    function startDrawing(event) {
+      event.preventDefault();
+
+      const pos = getPosition(event);
+      canvasContexts[name].drawing = true;
+
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function draw(event) {
+      event.preventDefault();
+
+      if (!canvasContexts[name].drawing) return;
+
+      const pos = getPosition(event);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+
+    function stopDrawing() {
+      canvasContexts[name].drawing = false;
+    }
+
+    canvas.addEventListener("mousedown", startDrawing);
+    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mouseup", stopDrawing);
+    canvas.addEventListener("mouseleave", stopDrawing);
+
+    canvas.addEventListener("touchstart", startDrawing, { passive: false });
+    canvas.addEventListener("touchmove", draw, { passive: false });
+    canvas.addEventListener("touchend", stopDrawing);
+  });
+
+
+  window.clearCanvas = function(name) {
+    const item = canvasContexts[name];
+    item.ctx.clearRect(0, 0, item.canvas.width, item.canvas.height);
+  };
+
+
+  function getResult(material) {
+    const selected = document.querySelector(
+      `input[name="result-${material}"]:checked`
+    );
+
+    return selected ? selected.value : "";
+  }
+
+
+  // 学生提交资料
+  document.getElementById("submitButton").addEventListener("click", async () => {
+    const className = document.getElementById("className").value.trim();
+    const groupName = document.getElementById("groupName").value.trim();
+    const prediction = document.getElementById("prediction").value.trim();
+    const conclusion = document.getElementById("conclusion").value.trim();
+
+    if (!className || !groupName || !prediction || !conclusion) {
+      alert("请填写班级、组别、预测和结论。");
+      return;
+    }
+
+    const submission = {
+      className: className,
+      groupName: groupName,
+      prediction: prediction,
+      conclusion: conclusion,
+
+      experiments: {
+        rubberBand: {
+          methodImage: canvasContexts["rubber-band"].canvas.toDataURL("image/png"),
+          result: getResult("rubber-band")
+        },
+        drum: {
+          methodImage: canvasContexts["drum"].canvas.toDataURL("image/png"),
+          result: getResult("drum")
+        },
+        ruler: {
+          methodImage: canvasContexts["ruler"].canvas.toDataURL("image/png"),
+          result: getResult("ruler")
+        }
+      },
+
+      submittedAt: serverTimestamp()
+    };
+
+    if (
+      !submission.experiments.rubberBand.result ||
+      !submission.experiments.drum.result ||
+      !submission.experiments.ruler.result
+    ) {
+      alert("请为每个实验选择 ✓ 或 ✗。");
+      return;
+    }
+
+    try {
+      document.getElementById("submitButton").disabled = true;
+
+      await addDoc(collection(db, "submissions"), submission);
+
+      document.getElementById("message").innerText =
+        "提交成功，老师已经可以查看你的答案。";
+
+      document.getElementById("message").style.color = "green";
+
+      document.getElementById("submitButton").disabled = false;
+
+    } catch (error) {
+      console.error(error);
+
+      document.getElementById("message").innerText =
+        "提交失败，请检查网络或 Firebase 设置。";
+
+      document.getElementById("message").style.color = "red";
+
+      document.getElementById("submitButton").disabled = false;
+    }
+  });
+
+
+  // 老师查看页面
+  async function loadSubmissions() {
+    const records = document.getElementById("records");
+    records.innerHTML = "<p>正在读取资料...</p>";
+
+    try {
+      const q = query(
+        collection(db, "submissions"),
+        orderBy("submittedAt", "desc")
+      );
+
+      const snapshot = await getDocs(q);
+
+      records.innerHTML = "";
+
+      if (snapshot.empty) {
+        records.innerHTML = "<p>目前没有学生提交资料。</p>";
+        return;
+      }
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const experiments = data.experiments || {};
+
+        const date = data.submittedAt
+          ? data.submittedAt.toDate().toLocaleString()
+          : "时间读取中";
+
+        const record = document.createElement("div");
+        record.className = "teacher-record";
+
+        record.innerHTML = `
+          <h3>
+            班级：${escapeHTML(data.className)}
+           　
+            组别：${escapeHTML(data.groupName)}
+          </h3>
+
+          <p><b>Predict：</b>${escapeHTML(data.prediction)}</p>
+
+          <h4>Rubber band</h4>
+          <p>Result：${resultSymbol(experiments.rubberBand?.result)}</p>
+          <img src="${experiments.rubberBand?.methodImage || ""}">
+
+          <h4>Drum</h4>
+          <p>Result：${resultSymbol(experiments.drum?.result)}</p>
+          <img src="${experiments.drum?.methodImage || ""}">
+
+          <h4>Ruler</h4>
+          <p>Result：${resultSymbol(experiments.ruler?.result)}</p>
+          <img src="${experiments.ruler?.methodImage || ""}">
+
+          <p><b>Conclusion：</b>${escapeHTML(data.conclusion)}</p>
+          <p><small>提交时间：${date}</small></p>
+        `;
+
+        records.appendChild(record);
+      });
+
+    } catch (error) {
+      console.error(error);
+      records.innerHTML =
+        "<p style='color:red;'>读取失败，请检查 Firebase 设置。</p>";
+    }
+  }
+
+
+  function resultSymbol(result) {
+    if (result === "yes") return "✓";
+    if (result === "no") return "✗";
+    return "未选择";
+  }
+
+
+  function escapeHTML(text) {
+    if (!text) return "";
+
+    return text
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+
+  // 如果网址是 index.html?teacher，就显示老师页面
+  const isTeacherPage =
+    new URLSearchParams(window.location.search).has("teacher");
+
+  if (isTeacherPage) {
+    document.getElementById("studentPage").style.display = "none";
+    document.getElementById("teacherPage").style.display = "block";
+    loadSubmissions();
+  }
+</script>
+
+</body>
+</html>
